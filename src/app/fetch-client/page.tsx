@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 type User = {
 	id: number,
@@ -19,22 +19,22 @@ type User = {
 }
 
 export default function Page(){
-	const [users, setUsers] = useState<User[]>([])
-	const [loading, setLoading] = useState(false)
-
-	useEffect(() => {
-		setLoading(true)
-		const fetchUsers = async () => {
-			const res = await fetch('https://jsonplaceholder.typicode.com/users')
-			const data = await res.json()
-			setUsers(data)
-			setLoading(false)
+	const fetchUsers = async (): Promise<User[]> => {
+		const res = await fetch('https://jsonplaceholder.typicode.com/users')
+		if (!res.ok) {
+			throw new Error('Failed to fetch users')
 		}
+		const data = await res.json()
+		return data
+	}
 
-		fetchUsers()
-	}, [])
+	const { data: users = [], isLoading, error } = useQuery({
+		queryKey: ['users'],
+		queryFn: fetchUsers,
+	})
 
-	if(loading) return <p>Loading...</p>
+	if (isLoading) return <p>Loading...</p>
+	if (error) return <p>Error: {error.message}</p>
 
 	return (
 		<section>
