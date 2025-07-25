@@ -30,13 +30,14 @@ export function EditForm({selectedProduct}: EditFormProps){
 			const formData = new FormData()
 			formData.append('name', product.name)
 			formData.append('description', product.description)
-			const createdProduct = await updateProduct(formData, selectedProduct.id)
-			if(createdProduct.success){
+
+			const updatedProduct = await updateProduct(formData, selectedProduct.id)
+			if(updatedProduct.success){
 				toast.success('Produk berhasil diubah')
 				router.push('/products')
 				router.refresh()
 			} else {
-				toast.error(createdProduct.error)
+				toast.error(updatedProduct.error)
 			}
 		} catch (error) {
 			toast.error(error instanceof Error ? error.message : 'Something went wrong')

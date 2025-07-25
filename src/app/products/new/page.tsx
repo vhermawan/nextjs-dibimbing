@@ -24,6 +24,7 @@ export default function CreateProductPage(){
 			const formData = new FormData()
 			formData.append('name', product.name)
 			formData.append('description', product.description)
+
 			const createdProduct = await createProduct(formData)
 			if(createdProduct.success){
 				toast.success('Produk berhasil dibuat')

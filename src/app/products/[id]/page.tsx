@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
-type DetailPageProps = {
+interface DetailPageProps {
   params: Promise<{ id: string }>
 }
 

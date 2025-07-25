@@ -5,25 +5,26 @@ import { Product } from '@prisma/client';
 
 export async function getProducts(): Promise<Product[]> {
 	try {
-    return await prisma.product.findMany({
-      where: {
-        deletedAt: null
-      },
-      orderBy: {
-        createdAt: 'desc'
-      }
-    })
+		const products = await prisma.product.findMany({
+			where: {
+				deletedAt: null
+			},
+			orderBy: {
+				createdAt: 'desc'
+			}
+		})
+		return products
     
   } catch (error) {
    throw error
   }
 }
 
-export async function getProduct(id: string): Promise<Product | null> {
+export async function getProduct(productId: string): Promise<Product | null> {
 	try {
 		const product = await prisma.product.findUnique({
 			where: {
-				id
+				id: productId
 			}
 		})
 
