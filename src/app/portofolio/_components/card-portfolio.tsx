@@ -1,6 +1,6 @@
 
 // 'use client';
-import ButtonAction from "@/_components/button-action";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 // import { useRouter } from "next/navigation";
 
@@ -17,9 +17,10 @@ export default function CardPortofolio({id, title, description}: CardPortofolioP
 			<h1>{title}</h1>
 			<p>{description}</p>
 			<Link href={`/portofolio/${id}`} target="_blank">
-				<ButtonAction 
-					text="Detail"
-				/>
+				<Button 
+				>
+					Detail
+				</Button>
 			</Link>
 			{/* <ButtonAction 
 				text="Detail"
