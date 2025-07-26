@@ -7,30 +7,29 @@ import bcrypt from "bcryptjs"
 import { z } from "zod"
 
 const loginSchema = z.object({
-  email: z.string().email(),
+  email: z.email(),
   password: z.string().min(6),
 })
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
+ 
+export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   session: {
-    strategy: "jwt",
+    strategy: 'jwt'
   },
   pages: {
-    signIn: "/login",
-    newUser: "/register",
+    signIn: '/login',
+    newUser: '/register',
   },
   providers: [
     CredentialsProvider({
-      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
-          const { email, password } = loginSchema.parse(credentials)
-          
+          const { email, password } = loginSchema.parse(credentials);
+          // validasi sukses
           const user = await prisma.user.findUnique({
             where: { email }
           })
@@ -40,8 +39,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           }
 
           const isPasswordValid = await bcrypt.compare(password, user.password)
-          
-          if (!isPasswordValid) {
+
+          if(!isPasswordValid) {
             return null
           }
 
@@ -53,8 +52,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         } catch {
           return null
         }
-      }
-    })
+      },
+    }),
   ],
   callbacks: {
     async jwt({ token, user }) {
