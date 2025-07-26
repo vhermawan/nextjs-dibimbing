@@ -33,7 +33,7 @@ export default function LoginPage() {
         router.push("/dashboard") // Redirect to your desired page
         router.refresh()
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred during login")
     } finally {
       setLoading(false)
